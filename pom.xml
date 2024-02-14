@@ -18,13 +18,45 @@
     <url>https://github.com/exo-addons/api-direct-access</url>
     <tag>HEAD</tag>
   </scm>
+  <dependencies>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.commons</artifactId>
+      <version>6.6.x-mips-SNAPSHOT</version>
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.security.core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.exoplatform.gatein.sso</groupId>
+      <artifactId>sso-agent</artifactId>
+    </dependency>
+  </dependencies>
+  <modules>
+    <module>services</module>
+  </modules>
   <properties>
-
+    <exo.social.version>6.5.x-SNAPSHOT</exo.social.version>
     <!-- Sonar properties -->
     <sonar.organization>exoplatform</sonar.organization>
 
   </properties>
   <dependencyManagement>
+    <dependencies>
+    <dependency>
+      <groupId>org.exoplatform.social</groupId>
+      <artifactId>social</artifactId>
+      <version>${exo.social.version}</version>
+      <type>pom</type>
+      <scope>import</scope>
+    </dependency>
+    </dependencies>
   </dependencyManagement>
   <!-- This profile is used to allow github action to build branches. The github action is used for sonar analysis -->
   <profiles>
