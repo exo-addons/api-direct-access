@@ -17,6 +17,7 @@
 
 package org.exoplatform.addons.apidirectaccess;
 
+import javax.security.auth.login.LoginException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
@@ -52,11 +53,13 @@ public class BasicAuthRestFilter extends AbstractFilter {
         && authorization != null
         && authorization.toLowerCase().startsWith("basic")) {
       ServletContainer servletContainer = ServletContainerFactory.getServletContainer();
-      Credentials credentials = new Credentials("","");
+      Credentials credentials = BasicAuthRestLoginModule.extractCredentials(authorization);
       servletContainer.login(request, response, credentials);
     }
 
     // Continue
     chain.doFilter(request, response);
   }
+
+
 }

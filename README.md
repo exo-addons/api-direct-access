@@ -26,4 +26,8 @@ For "Basic" authentication the credentials are constructed by first combining th
 > Base64-encoding can easily be reversed to obtain the original name and password, so Basic authentication is completely insecure. HTTPS is always recommended when using authentication, but is even more so when using Basic authentication.`
 
 
+# To do in next versions 
 
+ - add a property to explicitly activate BasicAuth, not activated by default
+ - add a property with a token : without this token in header, no basic auth
+ - Put the API token in settings with a nice UI
