@@ -25,3 +25,5 @@ gatein.sso.saml.subject.attribute=uid
 | gatein.sso.saml.use.namedid | To define if eXo must use nameid to identify the user                                  | true          |
 | gatein.sso.saml.subject.attribute | If previous property is set to false, which attribute must be used to identity the user | uid           |
 
+# eXo Supported Version
+1.0.x version supports eXo Platform 6.5.x
