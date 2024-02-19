@@ -1,35 +1,23 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.exoplatform.addons.apidirectaccess</groupId>
-    <artifactId>apidirectaccess-parent</artifactId>
+    <groupId>org.exoplatform.addons.saml-extensions</groupId>
+    <artifactId>saml-extensions-parent</artifactId>
     <version>1.0.x-SNAPSHOT</version>
   </parent>
-  <artifactId>apidirectaccess-services</artifactId>
-  <name>Api Direct Access - Services</name>
+  <artifactId>saml-extensions-services</artifactId>
+  <name>SAML Extensions - Services</name>
   <dependencies>
     <dependency>
-      <groupId>org.exoplatform.core</groupId>
-      <artifactId>exo.core.component.security.core</artifactId>
-      <scope>provided</scope>
+      <groupId>org.picketlink</groupId>
+      <artifactId>picketlink-federation</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.exoplatform.kernel</groupId>
-      <artifactId>exo.kernel.commons</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.exoplatform.gatein.sso</groupId>
-      <artifactId>sso-agent</artifactId>
-      <scope>provided</scope>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
     </dependency>
   </dependencies>
   <build>
-    <finalName>apidirectaccess-services</finalName>
+    <finalName>saml-extensions-services</finalName>
   </build>
 </project>

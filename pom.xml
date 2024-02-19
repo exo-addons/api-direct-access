@@ -3,59 +3,40 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>addons-exo-parent-pom</artifactId>
+    <artifactId>addons-parent-pom</artifactId>
     <groupId>org.exoplatform.addons</groupId>
-    <version>17</version>
+    <version>18-M02</version>
   </parent>
-  <groupId>org.exoplatform.addons.apidirectaccess</groupId>
-  <artifactId>apidirectaccess-parent</artifactId>
+  <groupId>org.exoplatform.addons.saml-extensions</groupId>
+  <artifactId>saml-extensions-parent</artifactId>
   <version>1.0.x-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Api Direct Access - Parent POM</name>
-  <scm>
-    <connection>scm:git:git://github.com/exo-addons/api-direct-access.git</connection>
-    <developerConnection>scm:git:ssh://git@github.com/exo-addons/api-direct-access.git</developerConnection>
-    <url>https://github.com/exo-addons/api-direct-access</url>
-    <tag>HEAD</tag>
-  </scm>
-  <dependencies>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>javax.servlet-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.exoplatform.kernel</groupId>
-      <artifactId>exo.kernel.commons</artifactId>
-      <version>6.6.x-mips-SNAPSHOT</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.exoplatform.core</groupId>
-      <artifactId>exo.core.component.security.core</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.exoplatform.gatein.sso</groupId>
-      <artifactId>sso-agent</artifactId>
-    </dependency>
-  </dependencies>
+  <name>Saml Extensions - Parent POM</name>
   <modules>
     <module>services</module>
   </modules>
   <properties>
-    <exo.social.version>6.5.x-SNAPSHOT</exo.social.version>
+    <org.exoplatform.social.version>6.6.x-SNAPSHOT</org.exoplatform.social.version>
     <!-- Sonar properties -->
     <sonar.organization>exoplatform</sonar.organization>
+    <org.picketlink.federation.version>2.5.5.Final</org.picketlink.federation.version>
 
   </properties>
   <dependencyManagement>
     <dependencies>
-    <dependency>
-      <groupId>org.exoplatform.social</groupId>
-      <artifactId>social</artifactId>
-      <version>${exo.social.version}</version>
-      <type>pom</type>
-      <scope>import</scope>
-    </dependency>
+      <dependency>
+        <groupId>org.exoplatform.social</groupId>
+        <artifactId>social</artifactId>
+        <version>${org.exoplatform.social.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.picketlink</groupId>
+        <artifactId>picketlink-federation</artifactId>
+        <version>${org.picketlink.federation.version}</version>
+        <scope>provided</scope>
+      </dependency>
     </dependencies>
   </dependencyManagement>
   <!-- This profile is used to allow github action to build branches. The github action is used for sonar analysis -->
