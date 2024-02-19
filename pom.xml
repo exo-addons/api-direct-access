@@ -5,7 +5,7 @@
   <parent>
     <artifactId>addons-parent-pom</artifactId>
     <groupId>org.exoplatform.addons</groupId>
-    <version>18-M02</version>
+    <version>17</version>
   </parent>
   <groupId>org.exoplatform.addons.saml-extensions</groupId>
   <artifactId>saml-extensions-parent</artifactId>
@@ -14,9 +14,10 @@
   <name>Saml Extensions - Parent POM</name>
   <modules>
     <module>services</module>
+    <module>packaging</module>
   </modules>
   <properties>
-    <org.exoplatform.social.version>6.6.x-SNAPSHOT</org.exoplatform.social.version>
+    <org.exoplatform.social.version>6.5.x-SNAPSHOT</org.exoplatform.social.version>
     <!-- Sonar properties -->
     <sonar.organization>exoplatform</sonar.organization>
     <org.picketlink.federation.version>2.5.5.Final</org.picketlink.federation.version>
@@ -36,6 +37,28 @@
         <artifactId>picketlink-federation</artifactId>
         <version>${org.picketlink.federation.version}</version>
         <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+        <!-- Missing dependency in exo-saml-addon:6.5.1 to decrypt assertions
+        we add it here waiting the fix in the addon -->
+        <groupId>org.apache.santuario</groupId>
+        <artifactId>xmlsec</artifactId>
+        <version>4.0.1</version>
+      </dependency>
+
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>saml-extensions-services</artifactId>
+        <version>${project.version}</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>saml-extensions-packaging</artifactId>
+        <version>${project.version}</version>
+        <scope>provided</scope>
+        <type>zip</type>
       </dependency>
     </dependencies>
   </dependencyManagement>

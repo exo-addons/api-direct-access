@@ -46,7 +46,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import jakarta.servlet.http.HttpSession;
+import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 import java.net.URI;
 import java.security.Principal;
@@ -61,63 +61,19 @@ import static org.picketlink.common.util.StringUtil.isNotNull;
 public class SAML2ExtendedAuthenticationHandler extends SAML2AuthenticationHandler {
   private final SPExtendedAuthenticationHandler sp = new SPExtendedAuthenticationHandler();
 
+  @Override
+  public void handleStatusResponseType(SAML2HandlerRequest request, SAML2HandlerResponse response) throws ProcessingException {
+    if (request.getSAML2Object() instanceof ResponseType == false)
+      return;
+
+    if (getType() == HANDLER_TYPE.IDP) {
+      super.handleStatusResponseType(request, response);
+    } else {
+      sp.handleStatusResponseType(request, response);
+    }
+  }
 
   private class SPExtendedAuthenticationHandler {
-
-    public void generateSAMLRequest(SAML2HandlerRequest request, SAML2HandlerResponse response) throws ProcessingException {
-      String issuerValue = request.getIssuer().getValue();
-
-      SAML2Request samlRequest = new SAML2Request();
-      String id = IDGenerator.create("ID_");
-
-      String assertionConsumerURL = (String) handlerConfig.getParameter(SAML2Handler.ASSERTION_CONSUMER_URL);
-      if (StringUtil.isNullOrEmpty(assertionConsumerURL)) {
-        assertionConsumerURL = issuerValue;
-      }
-
-      // Check if there is a nameid policy
-      String nameIDFormat = (String) handlerConfig.getParameter(GeneralConstants.NAMEID_FORMAT);
-      if (isNotNull(nameIDFormat)) {
-        samlRequest.setNameIDFormat(nameIDFormat);
-      }
-      try {
-        AuthnRequestType authn = samlRequest.createAuthnRequestType(id, assertionConsumerURL,
-                                                                    response.getDestination(), issuerValue);
-
-        createRequestedAuthnContext(authn);
-
-        String bindingType = getSPConfiguration().getBindingType();
-        boolean isIdpUsesPostBinding = getSPConfiguration().isIdpUsesPostBinding();
-
-        if (bindingType != null) {
-          if (bindingType.equals("POST") || isIdpUsesPostBinding) {
-            authn.setProtocolBinding(URI.create(JBossSAMLURIConstants.SAML_HTTP_POST_BINDING.get()));
-          } else if (bindingType.equals("REDIRECT")) {
-            authn.setProtocolBinding(URI.create(JBossSAMLURIConstants.SAML_HTTP_REDIRECT_BINDING.get()));
-          } else {
-            throw logger.samlInvalidProtocolBinding();
-          }
-        }
-
-        response.setResultingDocument(samlRequest.convert(authn));
-        response.setSendRequest(true);
-
-        Map<String, Object> requestOptions = request.getOptions();
-        PicketLinkAuditHelper auditHelper = (PicketLinkAuditHelper) requestOptions.get(GeneralConstants.AUDIT_HELPER);
-        if (auditHelper != null) {
-          PicketLinkAuditEvent auditEvent = new PicketLinkAuditEvent(AuditLevel.INFO);
-          auditEvent.setWhoIsAuditing((String) requestOptions.get(GeneralConstants.CONTEXT_PATH));
-          auditEvent.setType(PicketLinkAuditEventType.CREATED_ASSERTION);
-          auditEvent.setAssertionID(id);
-          auditHelper.audit(auditEvent);
-        }
-
-        // Save AuthnRequest ID into sharedState, so that we can later process it by another handler
-        request.addOption(GeneralConstants.AUTH_REQUEST_ID, id);
-      } catch (Exception e) {
-        throw logger.processingError(e);
-      }
-    }
 
     public void handleStatusResponseType(SAML2HandlerRequest request, SAML2HandlerResponse response)
         throws ProcessingException {
@@ -180,8 +136,6 @@ public class SAML2ExtendedAuthenticationHandler extends SAML2AuthenticationHandl
       }
     }
 
-    public void handleRequestType(SAML2HandlerRequest request, SAML2HandlerResponse response) throws ProcessingException {
-    }
 
     private ResponseType decryptAssertion(ResponseType responseType, PrivateKey privateKey) throws ProcessingException {
       if (privateKey == null)
@@ -268,14 +222,28 @@ public class SAML2ExtendedAuthenticationHandler extends SAML2AuthenticationHandl
       if (nameID == null)
         throw logger.nullValueError("Unable to find username via subject");
 
-      final String userName = nameID.getValue();
-      List<String> roles = new ArrayList<String>();
+      String userName = nameID.getValue();
+      if (!Boolean.parseBoolean((String)handlerConfig.getParameter("USE_NAMEID"))) {
+        Set<StatementAbstractType> statements = assertion.getStatements();
+        for (StatementAbstractType statement : statements) {
+          if (statement instanceof AttributeStatementType attributeStatement) {
+            List<AttributeStatementType.ASTChoiceType> attList = attributeStatement.getAttributes();
+            for (AttributeStatementType.ASTChoiceType obj : attList) {
+              AttributeType attr = obj.getAttribute();
+              if (attr.getFriendlyName().equals(handlerConfig.getParameter("SUBJECT_ATTRIBUTE"))) {
+                userName = (String)attr.getAttributeValue().get(0);
+              }
+            }
+          }
+        }
+      }
+
+      List<String> roles = new ArrayList<>();
 
       // Let us get the roles
       Set<StatementAbstractType> statements = assertion.getStatements();
       for (StatementAbstractType statement : statements) {
-        if (statement instanceof AttributeStatementType) {
-          AttributeStatementType attributeStatement = (AttributeStatementType) statement;
+        if (statement instanceof AttributeStatementType attributeStatement) {
           roles.addAll(getRoles(attributeStatement));
         }
       }
@@ -359,36 +327,6 @@ public class SAML2ExtendedAuthenticationHandler extends SAML2AuthenticationHandl
       }
 
       return spConfiguration;
-    }
-  }
-
-  private void createRequestedAuthnContext(final AuthnRequestType authn) {
-    String authnContextClasses = (String) handlerConfig.getParameter(GeneralConstants.AUTHN_CONTEXT_CLASSES);
-
-    if (isNotNull(authnContextClasses)) {
-      RequestedAuthnContextType requestAuthnContext = new RequestedAuthnContextType();
-
-      for (String classFqn : authnContextClasses.split(",")) {
-        SAMLAuthenticationContextClass standardClass = SAMLAuthenticationContextClass.forAlias(classFqn);
-
-        if (standardClass != null) {
-          classFqn = standardClass.getFqn();
-        }
-
-        requestAuthnContext.addAuthnContextClassRef(classFqn);
-      }
-
-      if (!requestAuthnContext.getAuthnContextClassRef().isEmpty()) {
-        String comparison = (String) handlerConfig.getParameter(GeneralConstants.REQUESTED_AUTHN_CONTEXT_COMPARISON);
-
-        if (isNotNull(comparison)) {
-          requestAuthnContext.setComparison(AuthnContextComparisonType.fromValue(comparison));
-        }
-
-        authn.setRequestedAuthnContext(requestAuthnContext);
-      } else {
-        logger.debug("RequestedAuthnContext not set for AuthnRequest. No class was provided.");
-      }
     }
   }
 }
