@@ -1,5 +1,8 @@
 # Introduction
 
+> [!WARNING]  
+> This addon is only for eXo Platform 6.5.x ! In 6.6.x and above, this code is present in the product.
+
 This addon allows to extends default eXo SAML behaviour. In some context, the user identifier is not in the subject which contains named-id with a persistent format, or with a transient format.
 In such case, the user identifier is present in assertion attributes.
 
