@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.exoplatform.addons.saml-extensions</groupId>
     <artifactId>saml-extensions-parent</artifactId>
-    <version>1.0.x-SNAPSHOT</version>
+    <version>1.0.1</version>
   </parent>
   <artifactId>saml-extensions-services</artifactId>
   <name>SAML Extensions - Services</name>
