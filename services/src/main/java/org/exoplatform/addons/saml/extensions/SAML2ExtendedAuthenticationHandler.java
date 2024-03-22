@@ -225,15 +225,16 @@ public class SAML2ExtendedAuthenticationHandler extends SAML2AuthenticationHandl
       String userName = nameID.getValue();
       if (!Boolean.parseBoolean((String)handlerConfig.getParameter("USE_NAMEID"))) {
         Set<StatementAbstractType> statements = assertion.getStatements();
-        outerloop:
         for (StatementAbstractType statement : statements) {
           if (statement instanceof AttributeStatementType attributeStatement) {
             List<AttributeStatementType.ASTChoiceType> attList = attributeStatement.getAttributes();
             for (AttributeStatementType.ASTChoiceType obj : attList) {
               AttributeType attr = obj.getAttribute();
-              if (attr.getFriendlyName() != null && attr.getFriendlyName().equals(handlerConfig.getParameter("SUBJECT_ATTRIBUTE"))) {
-                userName = (String)attr.getAttributeValue().get(0);
-                break outerloop;
+              if ((attr.getFriendlyName() != null && attr.getFriendlyName().equals(handlerConfig.getParameter("SUBJECT_ATTRIBUTE"))) ||
+                  (attr.getName() != null && attr.getName().equals(handlerConfig.getParameter("SUBJECT_ATTRIBUTE")))) {
+                if (attr.getAttributeValue() != null) {
+                  userName = (String) attr.getAttributeValue().get(0);
+                }
               }
             }
           }
