@@ -22,7 +22,7 @@
         class="org.gatein.sso.agent.saml.PortalSAML2LogOutHandler"/>
     <Handler
         class="org.exoplatform.addons.saml.extensions.SAML2ExtendedAuthenticationHandler">
-      <Option Key="NAMEID_FORMAT" Value="urn:oasis:names:tc:SAML:2.0:nameid-format:persistent"/>
+      <Option Key="NAMEID_FORMAT" Value="${gatein.sso.saml.nameid.format::urn:oasis:names:tc:SAML:2.0:nameid-format:persistent}"/>
       <Option Key="USE_NAMEID" Value="${gatein.sso.saml.use.namedid::true}"/>
       <Option Key="SUBJECT_ATTRIBUTE" Value="${gatein.sso.saml.subject.attribute::uid}"/>
     </Handler>
