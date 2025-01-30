@@ -28,7 +28,6 @@ along with this program. If not, see <http://www.gnu.org/licenses/>
       <outputDirectory>/lib</outputDirectory>
       <includes>
         <include>${project.groupId}:saml-extensions-services:jar</include>
-        <include>org.apache.santuario:xmlsec:jar</include>
       </includes>
       <scope>compile</scope>
       <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>

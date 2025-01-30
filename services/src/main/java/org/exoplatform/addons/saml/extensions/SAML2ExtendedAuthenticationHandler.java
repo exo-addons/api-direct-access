@@ -1,7 +1,6 @@
 package org.exoplatform.addons.saml.extensions;
 
 
-import org.jboss.security.audit.AuditLevel;
 import org.picketlink.common.constants.GeneralConstants;
 import org.picketlink.common.constants.JBossSAMLConstants;
 import org.picketlink.common.constants.JBossSAMLURIConstants;
@@ -13,14 +12,9 @@ import org.picketlink.common.util.DocumentUtil;
 import org.picketlink.common.util.StaxParserUtil;
 import org.picketlink.common.util.StringUtil;
 import org.picketlink.config.federation.SPType;
-import org.picketlink.identity.federation.api.saml.v2.request.SAML2Request;
 import org.picketlink.identity.federation.api.saml.v2.response.SAML2Response;
 import org.picketlink.identity.federation.core.SerializablePrincipal;
-import org.picketlink.identity.federation.core.audit.PicketLinkAuditEvent;
-import org.picketlink.identity.federation.core.audit.PicketLinkAuditEventType;
-import org.picketlink.identity.federation.core.audit.PicketLinkAuditHelper;
 import org.picketlink.identity.federation.core.parsers.saml.SAMLParser;
-import org.picketlink.identity.federation.core.saml.v2.common.IDGenerator;
 import org.picketlink.identity.federation.core.saml.v2.interfaces.SAML2Handler;
 import org.picketlink.identity.federation.core.saml.v2.interfaces.SAML2HandlerRequest;
 import org.picketlink.identity.federation.core.saml.v2.interfaces.SAML2HandlerResponse;
@@ -34,9 +28,6 @@ import org.picketlink.identity.federation.saml.v2.assertion.EncryptedAssertionTy
 import org.picketlink.identity.federation.saml.v2.assertion.NameIDType;
 import org.picketlink.identity.federation.saml.v2.assertion.StatementAbstractType;
 import org.picketlink.identity.federation.saml.v2.assertion.SubjectType;
-import org.picketlink.identity.federation.saml.v2.protocol.AuthnContextComparisonType;
-import org.picketlink.identity.federation.saml.v2.protocol.AuthnRequestType;
-import org.picketlink.identity.federation.saml.v2.protocol.RequestedAuthnContextType;
 import org.picketlink.identity.federation.saml.v2.protocol.ResponseType;
 import org.picketlink.identity.federation.saml.v2.protocol.StatusType;
 import org.picketlink.identity.federation.web.core.HTTPContext;
@@ -46,14 +37,12 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
-import javax.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
-import java.net.URI;
 import java.security.Principal;
 import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import static org.picketlink.common.util.StringUtil.isNotNull;

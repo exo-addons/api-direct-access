@@ -3,9 +3,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <artifactId>addons-parent-pom</artifactId>
+    <artifactId>addons-exo-parent-pom</artifactId>
     <groupId>org.exoplatform.addons</groupId>
-    <version>17</version>
+    <version>18-M06.1</version>
   </parent>
   <groupId>org.exoplatform.addons.saml-extensions</groupId>
   <artifactId>saml-extensions-parent</artifactId>
@@ -17,36 +17,19 @@
     <module>packaging</module>
   </modules>
   <properties>
-    <org.exoplatform.social.version>6.5.x-exo-SNAPSHOT</org.exoplatform.social.version>
+    <org.exoplatform.commons-exo.version>7.0.x-SNAPSHOT</org.exoplatform.commons-exo.version>
     <!-- Sonar properties -->
     <sonar.organization>exoplatform</sonar.organization>
-    <org.picketlink.federation.version>2.5.5.Final</org.picketlink.federation.version>
-
   </properties>
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.exoplatform.social</groupId>
-        <artifactId>social</artifactId>
-        <version>${org.exoplatform.social.version}</version>
+        <groupId>org.exoplatform.commons-exo</groupId>
+        <artifactId>commons-exo</artifactId>
+        <version>${org.exoplatform.commons-exo.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <dependency>
-        <groupId>org.picketlink</groupId>
-        <artifactId>picketlink-federation</artifactId>
-        <version>${org.picketlink.federation.version}</version>
-        <scope>provided</scope>
-      </dependency>
-
-      <dependency>
-        <!-- Missing dependency in exo-saml-addon:6.5.1 to decrypt assertions
-        we add it here waiting the fix in the addon -->
-        <groupId>org.apache.santuario</groupId>
-        <artifactId>xmlsec</artifactId>
-        <version>4.0.1</version>
-      </dependency>
-
       <dependency>
         <groupId>${project.groupId}</groupId>
         <artifactId>saml-extensions-services</artifactId>
