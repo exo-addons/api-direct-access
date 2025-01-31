@@ -9,7 +9,7 @@
   </parent>
   <groupId>org.exoplatform.addons.saml-extensions</groupId>
   <artifactId>saml-extensions-parent</artifactId>
-  <version>1.0.x-SNAPSHOT</version>
+  <version>7.0.x-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Saml Extensions - Parent POM</name>
   <modules>
