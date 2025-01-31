@@ -18,6 +18,8 @@
   </modules>
   <properties>
     <org.exoplatform.commons-exo.version>7.0.x-SNAPSHOT</org.exoplatform.commons-exo.version>
+    <!-- Third parties dependencies properties -->
+    <org.apache.santuario.xmlsec.version>4.0.1</org.apache.santuario.xmlsec.version>
     <!-- Sonar properties -->
     <sonar.organization>exoplatform</sonar.organization>
   </properties>
@@ -29,6 +31,13 @@
         <version>${org.exoplatform.commons-exo.version}</version>
         <type>pom</type>
         <scope>import</scope>
+      </dependency>
+      <dependency>
+        <!-- Missing dependency in exo-saml-addon:6.5.1 to decrypt assertions
+        we add it here waiting the fix in the addon -->
+        <groupId>org.apache.santuario</groupId>
+        <artifactId>xmlsec</artifactId>
+        <version>${org.apache.santuario.xmlsec.version}</version>
       </dependency>
       <dependency>
         <groupId>${project.groupId}</groupId>
