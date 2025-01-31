@@ -17,7 +17,7 @@
     <module>packaging</module>
   </modules>
   <properties>
-    <org.exoplatform.commons-exo.version>7.0.x-SNAPSHOT</org.exoplatform.commons-exo.version>
+    <org.exoplatform.commons-exo.version>7.0.0-M55</org.exoplatform.commons-exo.version>
     <!-- Third parties dependencies properties -->
     <org.apache.santuario.xmlsec.version>4.0.1</org.apache.santuario.xmlsec.version>
     <!-- Sonar properties -->
