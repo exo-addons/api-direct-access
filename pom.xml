@@ -17,7 +17,7 @@
     <module>packaging</module>
   </modules>
   <properties>
-    <org.exoplatform.social.version>6.5.x-SNAPSHOT</org.exoplatform.social.version>
+    <org.exoplatform.social.version>6.5.x-exo-SNAPSHOT</org.exoplatform.social.version>
     <!-- Sonar properties -->
     <sonar.organization>exoplatform</sonar.organization>
     <org.picketlink.federation.version>2.5.5.Final</org.picketlink.federation.version>
